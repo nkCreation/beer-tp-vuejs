@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container is-fluid">
+    <BeerList :beers="beers" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import BeerList from '@/components/BeerList';
+import axios from 'axios';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
+    BeerList,
+  },
+  data: () => ({
+    beers: [],
+  }),
+  mounted() {
+    this.fetchBeers();
+  },
+  methods: {
+    async fetchBeers() {
+      const { data } = await axios.get('https://api.punkapi.com/v2/beers', {
+        params: {
+          per_page: 40,
+        },
+      });
+      this.beers = data;
+    },
   },
 };
 </script>
