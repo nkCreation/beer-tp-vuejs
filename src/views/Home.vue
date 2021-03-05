@@ -7,27 +7,31 @@
 <script>
 import BeerList from '@/components/BeerList';
 import axios from 'axios';
+import { reactive, onMounted, toRefs } from 'vue';
 
 export default {
   name: 'Home',
   components: {
     BeerList,
   },
-  data: () => ({
-    beers: [],
-  }),
-  mounted() {
-    this.fetchBeers();
-  },
-  methods: {
-    async fetchBeers() {
-      const { data } = await axios.get('https://api.punkapi.com/v2/beers', {
-        params: {
-          per_page: 40,
-        },
-      });
-      this.beers = data;
-    },
+  setup() {
+    const data = reactive({
+      beers: [],
+    });
+
+    onMounted(async () => {
+      const { data: responseData } = await axios.get(
+        'https://api.punkapi.com/v2/beers',
+        {
+          params: {
+            per_page: 40,
+          },
+        }
+      );
+      data.beers = responseData;
+    });
+
+    return { ...toRefs(data) };
   },
 };
 </script>

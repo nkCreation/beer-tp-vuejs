@@ -21,13 +21,15 @@
       </div>
 
       <div class="content">
-        {{ beer.description | truncate(200) }}
+        {{ beerDescription }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue';
+
 export default {
   name: 'BeerListItem',
   props: {
@@ -36,13 +38,19 @@ export default {
       required: true,
     },
   },
-  computed: {
-    beerLink() {
-      return {
-        name: 'beer-detail',
-        params: { id: this.beer.id },
-      };
-    },
+  setup(props) {
+    const beerLink = computed(() => ({
+      name: 'beer-detail',
+      params: { id: props.beer.id },
+    }));
+
+    const beerDescription = computed(
+      () =>
+        props.beer.description.slice(0, 200) +
+        (200 < props.beer.description.length ? '...' : '')
+    );
+
+    return { beerLink, beerDescription };
   },
 };
 </script>

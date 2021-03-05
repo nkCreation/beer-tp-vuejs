@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <section class="hero is-medium is-bold">
       <div class="hero-head">
         <nav class="navbar">

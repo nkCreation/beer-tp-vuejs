@@ -18,6 +18,7 @@
 <script>
 import axios from 'axios';
 import BeerItem from '@/components/BeerItem.vue';
+import { reactive, onMounted, toRefs } from 'vue';
 
 export default {
   components: { BeerItem },
@@ -28,14 +29,19 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    beer: null,
-  }),
-  async mounted() {
-    const { data } = await axios.get(
-      `https://api.punkapi.com/v2/beers/${this.id}`
-    );
-    this.beer = data[0];
+  setup(props) {
+    const data = reactive({
+      beer: null,
+    });
+
+    onMounted(async () => {
+      const { data: responseData } = await axios.get(
+        `https://api.punkapi.com/v2/beers/${props.id}`
+      );
+      data.beer = responseData[0];
+    });
+
+    return { ...toRefs(data) };
   },
 };
 </script>

@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .beer-list {
   margin: 4em 0;
   display: grid;
