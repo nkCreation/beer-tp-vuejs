@@ -4,19 +4,18 @@
   </div>
 </template>
 
-<script>
-import BeerList from '@/components/BeerList';
-import { onMounted, computed } from 'vue';
-import { useStore } from 'vuex';
+<script lang="ts">
+import BeerList from '@/components/BeerList.vue';
+import { onMounted, computed, defineComponent } from 'vue';
+import { useStore } from '@/store';
 
-export default {
+export default defineComponent({
   name: 'Home',
   components: {
     BeerList,
   },
   setup() {
     const store = useStore();
-
     const beers = computed(() => store.state.beers);
 
     onMounted(() => {
@@ -25,5 +24,5 @@ export default {
 
     return { beers };
   },
-};
+});
 </script>

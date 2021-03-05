@@ -15,12 +15,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import BeerItem from '@/components/BeerItem.vue';
-import { computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, onMounted } from 'vue';
+import { useStore } from '@/store';
 
-export default {
+export default defineComponent({
   components: { BeerItem },
   name: 'BeerDetail',
   props: {
@@ -41,5 +41,5 @@ export default {
 
     return { beer };
   },
-};
+});
 </script>

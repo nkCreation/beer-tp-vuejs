@@ -27,10 +27,10 @@
   </div>
 </template>
 
-<script>
-import { computed } from 'vue';
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'BeerListItem',
   props: {
     beer: {
@@ -52,7 +52,7 @@ export default {
 
     return { beerLink, beerDescription };
   },
-};
+});
 </script>
 
 <style scoped>
