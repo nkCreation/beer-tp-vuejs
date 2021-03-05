@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import BeerItem from '@/components/BeerItem.vue';
-import { reactive, onMounted, toRefs } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: { BeerItem },
@@ -30,18 +30,16 @@ export default {
     },
   },
   setup(props) {
-    const data = reactive({
-      beer: null,
+    const store = useStore();
+    const beer = computed(() => store.getters.getABeer(props.id));
+
+    onMounted(() => {
+      if (!beer.value) {
+        store.dispatch('fetchBeers');
+      }
     });
 
-    onMounted(async () => {
-      const { data: responseData } = await axios.get(
-        `https://api.punkapi.com/v2/beers/${props.id}`
-      );
-      data.beer = responseData[0];
-    });
-
-    return { ...toRefs(data) };
+    return { beer };
   },
 };
 </script>

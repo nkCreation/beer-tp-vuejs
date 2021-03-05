@@ -6,8 +6,8 @@
 
 <script>
 import BeerList from '@/components/BeerList';
-import axios from 'axios';
-import { reactive, onMounted, toRefs } from 'vue';
+import { onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   name: 'Home',
@@ -15,23 +15,15 @@ export default {
     BeerList,
   },
   setup() {
-    const data = reactive({
-      beers: [],
+    const store = useStore();
+
+    const beers = computed(() => store.state.beers);
+
+    onMounted(() => {
+      store.dispatch('fetchBeers');
     });
 
-    onMounted(async () => {
-      const { data: responseData } = await axios.get(
-        'https://api.punkapi.com/v2/beers',
-        {
-          params: {
-            per_page: 40,
-          },
-        }
-      );
-      data.beers = responseData;
-    });
-
-    return { ...toRefs(data) };
+    return { beers };
   },
 };
 </script>
